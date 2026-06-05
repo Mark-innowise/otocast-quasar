@@ -6,6 +6,7 @@
   "author": "aliakseibahdzevich-del <aliaksei.bahdzevich@innowise.com>",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@10.0.0",
   "scripts": {
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
     "format": "prettier --write \"**/*.{js,vue,css,scss,html,md,json}\" --ignore-path .gitignore",
@@ -37,7 +38,6 @@
   "engines": {
     "node": "^28 || ^26 || ^24 || ^22.12",
     "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1",
-    "pnpm": ">= 10.0.0"
+    "yarn": ">= 1.21.1"
   }
 }
