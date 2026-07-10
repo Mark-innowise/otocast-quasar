@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "A Quasar Project",
   "productName": "Quasar App",
-  "author": "aliakseibahdzevich-del <aliaksei.bahdzevich@innowise.com>",
   "type": "module",
   "private": true,
   "packageManager": "pnpm@10.0.0",
