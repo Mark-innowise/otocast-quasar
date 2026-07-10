@@ -1,7 +1,6 @@
 <template>
   <q-page class="q-pa-md column items-center">
-    <!-- Profile chip: entry to the trophy case AND the target the collected
-         badge flies into after a puzzle is solved. -->
+    <!-- Profile: entry to Trophy Case and collect-animation target -->
     <button
       ref="profileRef"
       class="profile-chip"
@@ -12,7 +11,6 @@
       <q-icon name="account_circle" size="28px" class="profile-chip__avatar" />
       <div class="profile-chip__meta">
         <span class="profile-chip__name">{{ trophyStore.username }}</span>
-        <span class="profile-chip__count">{{ trophyStore.progressLabel }}</span>
       </div>
     </button>
 
@@ -338,66 +336,6 @@ async function onPuzzleSolved(payload) {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap');
-
-/* ---------- Profile chip (trophy entry + collect target) ---------- */
-.profile-chip {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px 8px 10px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-family: 'Outfit', sans-serif;
-  color: rgba(255, 255, 255, 0.95);
-
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.profile-chip:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-1px);
-}
-
-.profile-chip__avatar {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.profile-chip__meta {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-  text-align: left;
-}
-
-.profile-chip__name {
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.profile-chip__count {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.profile-chip--bump {
-  animation: profile-bump 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes profile-bump {
-  0% { transform: scale(1); }
-  35% { transform: scale(1.22) rotate(-3deg); box-shadow: 0 0 26px rgba(122, 97, 255, 0.75); }
-  60% { transform: scale(0.94) rotate(2deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
 
 /* ---------- Flying badge ---------- */
 .fly-badge {

@@ -1,6 +1,6 @@
 <template>
   <q-page class="trophy-page q-pa-md">
-    <!-- Header: back button, title, progress -->
+    <!-- Header: back button, title, profile, progress -->
     <header class="trophy-header">
       <div class="trophy-header__top">
         <q-btn
@@ -13,19 +13,24 @@
         />
         <h1 class="trophy-title">Trophy Case</h1>
 
-        <div class="trophy-progress">
-          <div class="trophy-progress__meta">
-            <q-icon name="account_circle" size="22px" class="q-mr-xs" />
-            <span class="trophy-progress__name">{{ trophyStore.username }}</span>
-            <span class="trophy-progress__count">— {{ trophyStore.progressLabel }}</span>
+        <div class="profile-chip profile-chip--static profile-chip--in-grid" aria-label="Profile">
+          <q-icon name="account_circle" size="28px" class="profile-chip__avatar" />
+          <div class="profile-chip__meta">
+            <span class="profile-chip__name">{{ trophyStore.username }}</span>
           </div>
-          <div class="trophy-progress__bar">
-            <div
-              class="trophy-progress__fill"
-              :style="{ width: trophyStore.progressPercent + '%' }"
-            />
-          </div>
-          <div class="trophy-progress__percent">{{ trophyStore.progressPercent }} %</div>
+        </div>
+      </div>
+
+      <div class="trophy-progress">
+        <div class="trophy-progress__meta">
+          <span class="trophy-progress__count">{{ trophyStore.progressLabel }} collected</span>
+          <span class="trophy-progress__percent">{{ trophyStore.progressPercent }}%</span>
+        </div>
+        <div class="trophy-progress__bar">
+          <div
+            class="trophy-progress__fill"
+            :style="{ width: trophyStore.progressPercent + '%' }"
+          />
         </div>
       </div>
     </header>
@@ -91,13 +96,22 @@ function goBack() {
 
 /* ---------- Header ---------- */
 .trophy-header {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .trophy-header__top {
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-bottom: 14px;
+}
+
+.trophy-page :deep(.profile-chip--in-grid) {
+  position: static;
+  top: auto;
+  right: auto;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .trophy-title {
@@ -120,23 +134,26 @@ function goBack() {
 }
 
 .trophy-progress {
-  min-width: 150px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   font-family: 'Outfit', sans-serif;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .trophy-progress__meta {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .trophy-progress__count {
-  margin-left: 4px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .trophy-progress__bar {
@@ -155,9 +172,8 @@ function goBack() {
 }
 
 .trophy-progress__percent {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.7);
-  text-align: right;
 }
 
 /* ---------- Section ---------- */
@@ -265,8 +281,12 @@ function goBack() {
   }
 
   .trophy-title {
-    order: -1;
-    flex-basis: calc(100% - 60px);
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .trophy-page :deep(.profile-chip--in-grid) {
+    margin-left: 0;
   }
 
   .trophy-progress {
