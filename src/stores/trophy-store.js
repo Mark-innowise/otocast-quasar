@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
+import { loadJson, saveJson } from '../utils/persistence'
 
-// Mock data for the Trophy Case. Based on the Grand Island, Nebraska
+const TROPHY_STORAGE_KEY = 'trophy-case'
 // "Sculpture Walk" scavenger hunt: 13 real sculptures + the walk logo (#14)
 // + a placeholder (#15). Each token is unlocked once the player completes the
 // mini-game for that sculpture. Swap `icon`/`color` for real token artwork
@@ -23,6 +24,35 @@ const TROPHY_TOKENS = [
   { id: 'in-the-mist', label: 'In the Mist', icon: 'filter_drama', color: '#9aa0a8', unlocked: false }
 ]
 
+function createDefaultTokens() {
+  return TROPHY_TOKENS.map((token) => ({ ...token }))
+}
+
+function loadTrophyState() {
+  const saved = loadJson(TROPHY_STORAGE_KEY, null)
+  const tokens = createDefaultTokens()
+
+  if (!saved) {
+    return { username: 'Username', tokens }
+  }
+
+  const unlockedIds = new Set(saved.unlockedIds ?? [])
+  return {
+    username: saved.username ?? 'Username',
+    tokens: tokens.map((token) => ({
+      ...token,
+      unlocked: unlockedIds.has(token.id)
+    }))
+  }
+}
+
+function persistTrophyState(state) {
+  saveJson(TROPHY_STORAGE_KEY, {
+    username: state.username,
+    unlockedIds: state.tokens.filter((token) => token.unlocked).map((token) => token.id)
+  })
+}
+
 // Darken a hex color a touch for the medallion's inner gradient.
 function shade(hex) {
   const c = hex.replace('#', '')
@@ -39,10 +69,7 @@ export function tokenGradient(token) {
 }
 
 export const useTrophyStore = defineStore('trophy', {
-  state: () => ({
-    username: 'Username',
-    tokens: TROPHY_TOKENS.map((token) => ({ ...token }))
-  }),
+  state: () => loadTrophyState(),
 
   getters: {
     total: (state) => state.tokens.length,
@@ -61,12 +88,16 @@ export const useTrophyStore = defineStore('trophy', {
   actions: {
     unlockToken(id) {
       const token = this.tokens.find((t) => t.id === id)
-      if (token) token.unlocked = true
+      if (!token || token.unlocked) return
+      token.unlocked = true
+      persistTrophyState(this.$state)
     },
 
     toggleToken(id) {
       const token = this.tokens.find((t) => t.id === id)
-      if (token) token.unlocked = !token.unlocked
+      if (!token) return
+      token.unlocked = !token.unlocked
+      persistTrophyState(this.$state)
     }
   }
 })

@@ -232,6 +232,7 @@ function startNewGame() {
 function changeGridSize(size) {
   localRows.value = size
   localCols.value = size
+  puzzleStore.setPreferredGridSize(size)
   reshuffleBoard()
 }
 

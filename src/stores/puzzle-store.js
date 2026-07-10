@@ -1,4 +1,14 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
+import { loadJson, saveJson } from '../utils/persistence'
+
+const GRID_STORAGE_KEY = 'puzzle-grid'
+const VALID_GRID_SIZES = [2, 3, 4]
+
+function loadPreferredGridSize() {
+  const saved = loadJson(GRID_STORAGE_KEY, null)
+  const size = saved?.size
+  return VALID_GRID_SIZES.includes(size) ? size : 3
+}
 
 export function formatPuzzleTime(ms) {
   const totalSeconds = Math.floor(ms / 1000)
@@ -10,6 +20,7 @@ export function formatPuzzleTime(ms) {
 export const usePuzzleStore = defineStore('puzzle', {
   state: () => ({
     imageUrl: '',
+    preferredGridSize: loadPreferredGridSize(),
     rows: 3,
     cols: 3,
     tiles: [],
@@ -43,6 +54,12 @@ export const usePuzzleStore = defineStore('puzzle', {
   actions: {
     setImageUrl(url) {
       this.imageUrl = url
+    },
+
+    setPreferredGridSize(size) {
+      if (!VALID_GRID_SIZES.includes(size)) return
+      this.preferredGridSize = size
+      saveJson(GRID_STORAGE_KEY, { size })
     },
 
     setDimensions(rows, cols) {

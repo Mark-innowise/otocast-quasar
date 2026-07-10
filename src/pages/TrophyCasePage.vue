@@ -150,7 +150,7 @@ function goBack() {
 .trophy-progress__fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #3fa9f5, #7b61ff, #4ad991);
+  background: rgba(255, 255, 255, 0.82);
   transition: width 0.4s ease;
 }
 

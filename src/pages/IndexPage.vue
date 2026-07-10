@@ -25,8 +25,8 @@
 
     <SlidingPuzzle
       ref="puzzleRef"
-      :rows="gridRows"
-      :cols="gridCols"
+      :rows="puzzleStore.preferredGridSize"
+      :cols="puzzleStore.preferredGridSize"
       :image-url="puzzleImageUrl"
       :shuffle-moves="250"
       class="full-width"
@@ -82,8 +82,6 @@ const router = useRouter()
 const puzzleStore = usePuzzleStore()
 const trophyStore = useTrophyStore()
 
-const gridRows = 3
-const gridCols = 3
 const puzzleRef = ref(null)
 
 // --- Trophy collect animation state ---
@@ -600,13 +598,13 @@ async function onPuzzleSolved(payload) {
 }
 
 .q-dialog__inner--minimized > .glass-dialog {
-  background: rgba(76, 175, 80, 0.2) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(76, 175, 80, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
-              0 0 20px rgba(76, 175, 80, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35),
+              0 0 20px rgba(255, 255, 255, 0.06);
   color: white;
   font-family: 'Outfit', sans-serif;
 }
